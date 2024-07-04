@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>local-url-proxy</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #app {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 20px;
+      }
+      .item {
+        margin: 20px;
+        text-decoration: none;
+      }
+      .poster {
+        width: 60px;
+        height: 60px;
+        background: #ff5600;
+        border-radius: 10px;
+        margin: 0 auto 5px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 20px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+      }
+      .poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .name {
+        text-align: center;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const data = [
+        {
+          name: 'qb',
+          url: 'http://home.justyeh.top:11304'
+        },
+        {
+          name: 'ddns-go',
+          url: 'http://home.justyeh.top:9876'
+        },
+        {
+          url: 'https://www.baidu.com/',
+          name: 'baidu'
+        }
+      ]
+
+      function render() {
+        let html = ''
+        data.forEach((item) => {
+          html += `
+                <a href="${item.url}" target="_blank" class="item">
+                  <div class="poster">${item.ico ? `<img src="${item.ico}"/>` : item.name.slice(0, 1)}</div>
+                  <div class="name">${item.name}</div>
+                </a>
+              `
+        })
+        document.querySelector('#app').innerHTML = html
+      }
+      render()
+
+      for (let index = 0; index < data.length; index++) {
+        const item = data[index]
+
+        const image = new Image()
+        image.src = item.url + '/favicon.ico'
+        image.onload = () => {
+          item.ico = image.src
+          render()
+        }
+      }
+    </script>
+  </body>
+</html>
